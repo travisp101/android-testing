@@ -16,7 +16,7 @@ import org.mockito.Matchers
  */
 object AddNotePresenterSpec : Spek({
 
-    given("a NotesPresenter") {
+    given("a AddNotePresenter") {
 
         val notesRepository: NotesRepository = mock()
         val imageFile: ImageFile = mock()
