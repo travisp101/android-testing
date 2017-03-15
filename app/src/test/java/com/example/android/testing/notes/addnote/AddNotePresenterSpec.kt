@@ -2,7 +2,6 @@ package com.example.android.testing.notes.addnote
 
 import com.example.android.testing.notes.data.NotesRepository
 import com.example.android.testing.notes.util.ImageFile
-import com.natpryce.hamkrest.containsSubstring
 import com.nhaarman.mockito_kotlin.*
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
@@ -16,7 +15,7 @@ import org.mockito.Matchers
  */
 object AddNotePresenterSpec : Spek({
 
-    given("a AddNotePresenter") {
+    given("an AddNotePresenter") {
 
         val notesRepository: NotesRepository = mock()
         val imageFile: ImageFile = mock()
@@ -67,7 +66,7 @@ object AddNotePresenterSpec : Spek({
             }
         }
 
-        on("image available but file does not exist") {
+        on("image available but the file does not exist") {
             whenever(imageFile.exists()).thenReturn(false)
             addNotePresenter.imageAvailable()
             it("should show image error") {
