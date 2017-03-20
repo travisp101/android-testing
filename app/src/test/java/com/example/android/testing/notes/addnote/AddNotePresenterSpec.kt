@@ -7,7 +7,6 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
-import org.mockito.Matchers
 
 /**
  * Specification for the implementation of [AddNotePresenter]
@@ -30,9 +29,11 @@ object AddNotePresenterSpec : Spek({
 
         on("save note") {
             addNotePresenter.saveNote("New Note Title", "Some Note Description")
+
             it("should save the note to the repository") {
                 verify(notesRepository).saveNote(any())
             }
+
             it("should show note list") {
                 verify(addNoteView).showNotesList()
             }
@@ -40,6 +41,7 @@ object AddNotePresenterSpec : Spek({
 
         on("save empty note") {
             addNotePresenter.saveNote("", "")
+
             it("should show empty note error") {
                 verify(addNoteView).showEmptyNoteError()
             }
@@ -61,8 +63,8 @@ object AddNotePresenterSpec : Spek({
             whenever(imageFile.exists()).thenReturn(true)
             whenever(imageFile.path).thenReturn(imageUrl)
             addNotePresenter.imageAvailable()
-            it("should save image and update the ui with thumbnail") {
-                verify(addNoteView).showImagePreview(Matchers.contains(imageUrl))
+            it("should save the image and display a preview") {
+                verify(addNoteView).showImagePreview(any())
             }
         }
 

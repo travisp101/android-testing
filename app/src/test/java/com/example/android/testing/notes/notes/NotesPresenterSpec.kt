@@ -13,54 +13,53 @@ import org.jetbrains.spek.api.dsl.on
  */
 object NotesPresenterSpec : Spek({
     given("a NotesPresenter") {
-        val repo: NotesRepository = mock()
-        val view: NotesContract.View = mock()
-        val presenter: NotesPresenter = NotesPresenter(repo, view)
-        val captor: KArgumentCaptor<NotesRepository.LoadNotesCallback> = argumentCaptor<NotesRepository.LoadNotesCallback>()
+        val notesRepository: NotesRepository = mock()
+        val notesView: NotesContract.View = mock()
+        val notesPresenter: NotesPresenter = NotesPresenter(notesRepository, notesView)
+        val callbackCaptor = argumentCaptor<NotesRepository.LoadNotesCallback>()
         val NOTES = listOf(Note("Title1", "Description1"), Note("Title2", "Description2"))
 
         afterEachTest {
-            reset(repo)
-            reset(view)
+            reset(notesRepository)
+            reset(notesView)
         }
 
         on("load notes") {
+            notesPresenter.loadNotes(true)
 
-            presenter.loadNotes(true)
-
-            it("should load notes from the repo") {
-                verify(repo).getNotes(captor.capture())
-                captor.lastValue.onNotesLoaded(NOTES)
+            it("should load notes from the repository") {
+                verify(notesRepository).getNotes(callbackCaptor.capture())
+                callbackCaptor.lastValue.onNotesLoaded(NOTES)
             }
 
-            it("should show then hide a progress") {
-                inOrder(view) {
-                    verify(view).setProgressIndicator(true)
-                    verify(view).setProgressIndicator(false)
+            it("should show and hide a progress in order") {
+                inOrder(notesView) {
+                    verify(notesView).setProgressIndicator(true)
+                    verify(notesView).setProgressIndicator(false)
                 }
             }
 
             it("should show notes on the view") {
-                verify(view).showNotes(NOTES)
+                verify(notesView).showNotes(NOTES)
             }
         }
 
         on("add a new note") {
 
-            presenter.addNewNote()
+            notesPresenter.addNewNote()
 
             it("should show add note UI") {
-                verify(view).showAddNote()
+                verify(notesView).showAddNote()
             }
         }
 
         on("open note detail") {
 
             val requestedNote = Note("Details Requested", "For this note")
-            presenter.openNoteDetails(requestedNote)
+            notesPresenter.openNoteDetails(requestedNote)
 
             it("should show note detail UI") {
-                verify(view).showNoteDetailUi(any())
+                verify(notesView).showNoteDetailUi(any())
             }
         }
     }

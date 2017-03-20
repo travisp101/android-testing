@@ -64,6 +64,8 @@ public class AddNotePresenter implements AddNoteContract.UserActionsListener {
         }
     }
 
+    //...
+
     @Override
     public void takePicture() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
